@@ -9,8 +9,8 @@ class User(db.Model, SerializerMixin):
     username = db.Column(db.String)
     _password_hash = db.Column(db.String)
     email = db.Column(db.String)
-    songs = db.relationship('Song', backref='user')
-    posts = db.relationship('FormPost', backref='user')
+    songs = db.relationship('Song', backref='user', cascade='all, delete, delete-orphan')
+    posts = db.relationship('FormPost', backref='user', cascade='all, delete, delete-orphan')
 
     @hybrid_property
     def password(self):
