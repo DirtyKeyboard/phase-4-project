@@ -2,16 +2,23 @@
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_serializer import SerializerMixin
 from config import db, bcrypt
+from sqlalchemy.orm import validates
 
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String)
+    username = db.Column(db.String, unique=True, nullable=False)
     _password_hash = db.Column(db.String)
-    email = db.Column(db.String)
+    email = db.Column(db.String, unique=True, nullable=False)
     songs = db.relationship('Song', backref='user', cascade='all, delete, delete-orphan')
     posts = db.relationship('FormPost', backref='user', cascade='all, delete, delete-orphan')
 
+    @validates('email')
+    def validate_email(self, key, value):
+        if '@' or '.' not in value:
+            raise ValueError('Invalid email')
+        return value
+    
     @hybrid_property
     def password(self):
         return self._password_hash
@@ -45,6 +52,7 @@ class Genre(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
     songs = db.relationship('Song', secondary='song_genres', back_populates='genres')
+    serialize_rules = ('-songs',)
     
     def __repr__(self):
         return f'<Genre {self.id} :: {self.name}>'
