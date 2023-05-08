@@ -11,7 +11,7 @@ class Home(Resource):
 class Signup(Resource):
     def post(self):
         try:
-            new_user = User(username=request.form['username'], email=request.form['email'], password=request.form['password'])
+            new_user = User(username=request.get_json()['username'], email=request.get_json()['email'], password=request.get_json()['password'])
             db.session.add(new_user)
             db.session.commit()
             session['user_id'] = new_user.id
@@ -31,6 +31,7 @@ class Login(Resource):
         if user:
             if user.verify_password(password):
                 session['user_id'] = user.id
+                print(session)
                 # request.set_cookie('user_id', user.id)
                 return user.to_dict(), 200
 
