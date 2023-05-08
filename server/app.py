@@ -31,11 +31,15 @@ class Login(Resource):
         if user:
             if user.verify_password(password):
                 session['user_id'] = user.id
-                print(session)
                 # request.set_cookie('user_id', user.id)
                 return user.to_dict(), 200
 
         return {'error': '401 Unauthorized'}, 401
+
+class Logout(Resource):
+    def get(self):
+        session.pop('user_id', None)
+        return make_response({'message': 'You have been logged out!'}, 200)
 
 class DeleteAccount(Resource):
     def delete(self):
@@ -50,7 +54,6 @@ class DeleteAccount(Resource):
     
 class CheckSession(Resource):
     def get(self):
-        print(session)
         if session.get('user_id'):
 
             user = User.query.filter(User.id == session['user_id']).first()
@@ -70,7 +73,15 @@ class GetUsersSongs(Resource):
 class AddSong(Resource):
     def post(self):
         try:
-            new_song = Song(title=request.get_json()['title'], artist=request.get_json()['artist'], user_id=session['user_id']) #Have a list of genre IDs, linking to the genres table, append each genre
+            new_song = Song(title=request.get_json()['title'],
+                            artist=request.get_json()['artist'],
+                            album=request.get_json()['album'],
+                            year=request.get_json()['year'],
+                            link=request.get_json()['link'],
+                            user_id=session['user_id']) #Have a list of genre IDs, linking to the genres table, append each genre
+            genres = request.get_json()['genres']
+            for i in genres:
+                new_song.genres.append(Genre.query.filter(Genre.id == i).first())
             db.session.add(new_song)
             db.session.commit()
             return make_response({'message': 'Song added!'}, 201)
@@ -103,6 +114,7 @@ api.add_resource(GetUsersSongs, '/get_users_songs')
 api.add_resource(AddSong, '/add_song')
 api.add_resource(FormPostList, '/formpost')
 api.add_resource(Login, '/login')
+api.add_resource(Logout, '/logout')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
