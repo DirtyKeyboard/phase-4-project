@@ -106,6 +106,25 @@ class FormPostList(Resource):
         except Exception as e:
             return make_response({'message': 'Something went wrong!','stackTrace': e}, 400)
     
+class GenreList(Resource):
+    def get(self):
+        genres = Genre.query.all()
+        return make_response([g.to_dict() for g in genres], 202)
+    
+class SetUserGenre(Resource):
+    def post(self):
+        if session.get('user_id'):
+            try:
+                genre = Genre.query.filter(Genre.name == request.get_json()['genre']).first()
+                user = User.query.filter(User.id == session['user_id']).first()
+                user.genre = genre
+                db.session.commit()
+                return make_response({'message': 'Genre set!'}, 201)
+            except:
+                return make_response({'message': 'Genre not set!'}, 401)
+        else:
+            return make_response({'message': 'Not logged in'}, 200)
+
 api.add_resource(Home, '/')
 api.add_resource(Signup, '/signup')
 api.add_resource(DeleteAccount, '/delete_account')
@@ -115,6 +134,8 @@ api.add_resource(AddSong, '/add_song')
 api.add_resource(FormPostList, '/formpost')
 api.add_resource(Login, '/login')
 api.add_resource(Logout, '/logout')
+api.add_resource(GenreList, '/genres')
+api.add_resource(SetUserGenre, '/set_user_genre')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

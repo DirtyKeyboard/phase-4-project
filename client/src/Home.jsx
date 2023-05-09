@@ -4,7 +4,7 @@ import axios from 'axios'
 import Quiz from './Quiz'
 
 const Home = () => {
-    const [logged, setLogged] = useState({})
+    const [logged, setLogged] = useState(null)
     useEffect(() => {
         async function fetchData() {
             const response = await axios.get('api/check_session');
@@ -25,8 +25,8 @@ const Home = () => {
             {logged.genre_id ? 
             <h1 className='text-white text-xl'>Quiz taken</h1> : 
             <Quiz />}
-            {/* <button className='btn-default'
-            onClick={handleLogout}>Logout</button> */}
+            <button className='btn-default'
+            onClick={handleLogout}>Logout</button>
         </>
         :
         <div className='flex justify-center h-screen items-center flex-col gap-6'>
