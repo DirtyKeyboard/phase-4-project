@@ -49,7 +49,7 @@ const Quiz = () => {
     async function getResult() {
         const r = await axios.get("api/genres")
         const genres = []
-        r.data.forEach(el => genres.push(0)) //Rap, Country, RB, EDM, Rock, Lofi
+        r.data.forEach(el => genres.push(0)) 
         let i = 6
         completed.forEach(el => {
             if (el === 'Rap')
@@ -66,7 +66,8 @@ const Quiz = () => {
                 genres[5] += i
             i-=1
         })
-        console.log(genres)
+        ///// Find the highest index for genres, figure out a way to pick between duplicate scores.
+        //Rap, Country, RB, EDM, Rock, Lofi -- Index genre in order
     }
     return (
         <div className='flex items-center mt-12 flex-col gap-10'>
