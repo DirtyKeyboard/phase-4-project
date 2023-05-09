@@ -14,14 +14,14 @@ const Create = () => {
     return (
         <form onSubmit={handleSubmit} className='flex gap-8 h-screen justify-center w-[40vw] m-auto items-center flex-col'>
             <label className="text-white text-xl font-semibold">Email</label>
-        <input type='text' className='bg-gray-200 text-gray-700 w-full' name='email' value={form.email} onChange={handleChange} />
+        <input type='text' className='bg-gray-200 text-black font-bold w-full' name='email' value={form.email} onChange={handleChange} />
         <label className="text-white text-xl font-semibold">Username</label>
-        <input type='text' className='bg-gray-200 text-gray-700 w-full' name='username' value={form.username} onChange={handleChange} />
+        <input type='text' className='bg-gray-200 text-black font-bold w-full' name='username' value={form.username} onChange={handleChange} />
         <label className="text-white text-xl font-semibold">Password</label>
-        <input type='password' className='bg-gray-200 text-gray-700 w-full' name='password' value={form.password} onChange={handleChange} />
+        <input type='password' className='bg-gray-200 text-black font-bold w-full' name='password' value={form.password} onChange={handleChange} />
         <i className='flex gap-4'>
-            <button type='submit' className='text-white text-xl border px-4 py-2 rounded-md hover:bg-white hover:text-black transition-all ease duration-200 hover:rounded-3xl'>Create Account</button>
-            <button className='text-white text-xl border px-4 py-2 rounded-md hover:bg-white hover:text-black transition-all ease duration-200 hover:rounded-3xl'
+            <button type='submit' className='btn-default'>Create Account</button>
+            <button className='btn-default'
                 onClick={() => nav('/')}>Go Back</button>
         </i>
         </form>

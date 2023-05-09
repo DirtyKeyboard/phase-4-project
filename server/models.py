@@ -12,10 +12,12 @@ class User(db.Model, SerializerMixin):
     email = db.Column(db.String, unique=True, nullable=False)
     songs = db.relationship('Song', backref='user', cascade='all, delete, delete-orphan')
     posts = db.relationship('FormPost', backref='user', cascade='all, delete, delete-orphan')
+    genre = db.relationship('Genre', backref=db.backref('song', uselist=False))
+    genre_id = db.Column(db.Integer, db.ForeignKey('genres.id'))
 
     @validates('email')
     def validate_email(self, key, value):
-        if '@' or '.' not in value:
+        if '@' not in value or '.' not in value:
             raise ValueError('Invalid email')
         return value
     
@@ -39,7 +41,8 @@ class Song(db.Model, SerializerMixin):
     title = db.Column(db.String)
     artist = db.Column(db.String)
     album = db.Column(db.String)
-    genres = db.relationship('Genre', secondary='song_genres', back_populates='songs')
+    genre = db.relationship('Genre', backref=db.backref('song_g', uselist=False))
+    genre_id = db.Column(db.Integer, db.ForeignKey('genres.id'))
     year = db.Column(db.Integer)
     link = db.Column(db.String)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
@@ -51,17 +54,9 @@ class Genre(db.Model, SerializerMixin):
     __tablename__ = 'genres'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
-    songs = db.relationship('Song', secondary='song_genres', back_populates='genres')
-    serialize_rules = ('-songs',)
     
     def __repr__(self):
         return f'<Genre {self.id} :: {self.name}>'
-    
-class SongGenre(db.Model):
-    __tablename__ ='song_genres'
-    id = db.Column(db.Integer, primary_key=True)
-    song_id = db.Column(db.Integer, db.ForeignKey('songs.id'))
-    genre_id = db.Column(db.Integer, db.ForeignKey('genres.id'))
 
 class FormPost(db.Model, SerializerMixin):
     __tablename__ = 'form_posts'

@@ -11,3 +11,9 @@ body {
 button {
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
+
+@layer components {
+    .btn-default {
+        @apply text-white text-xl border px-4 py-2 rounded-md hover:bg-white hover:text-black transition-all ease-in-out duration-200 hover:rounded-3xl;
+    }
+}
