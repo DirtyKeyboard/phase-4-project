@@ -125,6 +125,15 @@ class SetUserGenre(Resource):
         else:
             return make_response({'message': 'Not logged in'}, 200)
 
+class PatchGenre(Resource):
+    def patch(self):
+        genre_name = request.get_json()['genre']
+        user = User.query.filter(User.id == session['user_id']).first()
+        genre_added = Genre.query.filter(Genre.name == genre_name).first()
+        user.genre = genre_added
+        db.session.commit()
+        return make_response({"message": "Genre Added!"},202)
+
 api.add_resource(Home, '/')
 api.add_resource(Signup, '/signup')
 api.add_resource(DeleteAccount, '/delete_account')
@@ -136,6 +145,6 @@ api.add_resource(Login, '/login')
 api.add_resource(Logout, '/logout')
 api.add_resource(GenreList, '/genres')
 api.add_resource(SetUserGenre, '/set_user_genre')
-
+api.add_resource(PatchGenre, '/add_user_genre')
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

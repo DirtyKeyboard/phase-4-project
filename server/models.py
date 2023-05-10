@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy_serializer import SerializerMixin
 from config import db, bcrypt
 from sqlalchemy.orm import validates
@@ -14,6 +15,7 @@ class User(db.Model, SerializerMixin):
     posts = db.relationship('FormPost', backref='user', cascade='all, delete, delete-orphan')
     genre = db.relationship('Genre', backref=db.backref('song', uselist=False))
     genre_id = db.Column(db.Integer, db.ForeignKey('genres.id'))
+    # serialize_rules = ('-genre',)
 
     @validates('email')
     def validate_email(self, key, value):
@@ -54,6 +56,7 @@ class Genre(db.Model, SerializerMixin):
     __tablename__ = 'genres'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
+    serialize_only = ('name',)
     
     def __repr__(self):
         return f'<Genre {self.id} :: {self.name}>'
