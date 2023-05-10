@@ -97,7 +97,7 @@ const Quiz = () => {
                     <button className={questionClass} id={1} onClick={handleClick}>{answers[curQ-1][1].text}</button>
                     <button className={questionClass} id={2} onClick={handleClick}>{answers[curQ-1][2].text}</button>
                     <button className={questionClass} id={3} onClick={handleClick}>{answers[curQ-1][3].text}</button>
-                    </div>
+                </div>
                 </>
                 :
                 <>

@@ -11,16 +11,15 @@ const Home = () => {
             const response = await axios.get('api/check_session');
             if (response.status === 200)
                 setLogged(response.data)
-            setLoading(false)
         }
         fetchData()
+        setLoading(false)
     }, [])
     const nav = useNavigate()
     async function handleLogout(e) {
         await axios.get('api/logout')
         setLogged(false)
     }
-    console.log(logged)
     return (
         <>
         {logged ? 
