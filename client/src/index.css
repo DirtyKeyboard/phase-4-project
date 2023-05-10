@@ -16,4 +16,7 @@ button {
     .btn-default {
         @apply text-white text-xl border px-4 py-2 rounded-md hover:bg-white hover:text-black transition-all ease-in-out duration-200 hover:rounded-3xl;
     }
+    .container {
+        @apply ml-[225px] text-center pt-12;
+    }
 }
