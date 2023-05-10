@@ -8,24 +8,32 @@ const Quiz = () => {
                         "How would someone else describe your music?",
                         "Pick your favorite out of these artists",
                         "Pick your favorite song"]
+// 1	Rap 
+// 2	Country
+// 3	R&B
+// 4	EDM
+// 5	Rock
+// 6	Lo-fi
+// 7	Pop
+// 8	Jazz
     const answers = [
         [
-            {text: "Heavy Hitting", genre: "Rock"}, {genre: "Lo-fi", text: "Relaxing"}, {genre: "R&B", text: "Radio Music"}, {genre: "Rap", text: "Trap"}
+            {genre: "",text: ""}, {genre: "",text: ""}, {genre: "",text: ""}, {genre: "",text: ""}
         ],
         [
-            {genre: "Rock", text: "Working Out"}, {genre: "Lo-fi", text: "Sleeping"}, {genre: "R&B", text: "Dancing At A Club"}, {genre: "Country", text: "Working On A Farm"}
+            {genre: "",text: ""}, {genre: "",text: ""}, {genre: "",text: ""}, {genre: "",text: ""}
         ],
         [
-            {genre: "EDM", text: "What Singers?"}, {genre: "R&B", text: "Autotuned And Upbeat"}, {genre: "Country", text: "Slow And Clear"}, {genre: "Rap", text: "Rhythmic"}
+            {genre: "",text: ""}, {genre: "",text: ""}, {genre: "",text: ""}, {genre: "",text: ""}
         ],
         [
-            {genre: "Lo-fi",text: "Background Music"}, {genre: "Rock",text: "Angry"}, {genre: "Country",text: "Meaningful"}, {genre: "R&B",text: "Radio Music"}
+            {genre: "",text: ""}, {genre: "",text: ""}, {genre: "",text: ""}, {genre: "",text: ""}
         ],
         [
-            {genre: "Rap",text: "Drake"}, {genre: "Country", text: "Luke Bryan"}, {genre: "R&B",text: "The Weeknd"}, {genre: "EDM",text: "Marshmello"}
+            {genre: "",text: ""}, {genre: "",text: ""}, {genre: "",text: ""}, {genre: "",text: ""}
         ],
         [
-            {genre: "Rap",text: "Bubbly - Young Thug"}, {genre: "EDM",text: "KAIVON - All I Wanted"}, {genre: "Rock",text: "3 Days Grace - Never Too Late"}, {genre: "Lo-fi",text: "Lilac - Honey and Lemon"}
+            {genre: "",text: ""}, {genre: "",text: ""}, {genre: "",text: ""}, {genre: "",text: ""}
         ]
     ]
     const [completed, setCompleted] = useState([])
@@ -50,24 +58,6 @@ const Quiz = () => {
         const r = await axios.get("api/genres")
         const genres = []
         r.data.forEach(el => genres.push(0)) 
-        let i = 6
-        completed.forEach(el => {
-            if (el === 'Rap')
-                genres[0] += i
-            else if (el === 'Country')
-                genres[1] += i
-            else if (el === 'R&B')
-                genres[2] += i
-            else if (el === 'EDM')
-                genres[3] += i
-            else if (el === 'Rock')
-                genres[4] += i
-            else if (el === 'Lo-fi')
-                genres[5] += i
-            i-=1
-        })
-        ///// Find the highest index for genres, figure out a way to pick between duplicate scores.
-        //Rap, Country, RB, EDM, Rock, Lofi -- Index genre in order
     }
     return (
         <div className='flex items-center mt-12 flex-col gap-10'>

@@ -1,5 +1,5 @@
 from config import db, app
-from models import User, Song, Genre, FormPost
+from models import Genre
 
 with app.app_context():
     db.session.add(Genre(name="Rap"))
@@ -8,4 +8,6 @@ with app.app_context():
     db.session.add(Genre(name="EDM"))
     db.session.add(Genre(name="Rock"))
     db.session.add(Genre(name="Lo-fi"))
+    db.session.add(Genre(name="Pop"))
+    db.session.add(Genre(name="Jazz"))
     db.session.commit()
