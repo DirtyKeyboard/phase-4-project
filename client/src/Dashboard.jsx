@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import NavBar from './NavBar';
 import {useNavigate} from 'react-router-dom'
 import axios from 'axios'
+import TestCard from './TestCard'
 
 const Dashboard = () => {
   const nav = useNavigate()
@@ -23,6 +24,7 @@ const Dashboard = () => {
         <div className="container">
           <h1 className="text-white text-6xl">Welcome to Beat Buddy!</h1>
         </div>
+        
     </>
   );
 };

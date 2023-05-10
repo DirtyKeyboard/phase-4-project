@@ -69,6 +69,7 @@ class FormPost(db.Model, SerializerMixin):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     song_id = db.Column(db.Integer, db.ForeignKey('songs.id'))
     song = db.relationship('Song', backref=db.backref('song', uselist=False))
+    genre = association_proxy('song', 'genre')
 
     def __repr__(self):
         return f'<FormPost {self.id} :: {self.title}>'
