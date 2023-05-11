@@ -98,7 +98,7 @@ class FormPostList(Resource):
     def get(self):
         try:
             posts = FormPost.query.all()
-            return make_response(posts.to_dict(),202)
+            return make_response([f.to_dict() for f in posts] ,202)
         except Exception as e:
             return make_response({'message': 'Something went wrong!','stackTrace': e}, 400)
     
@@ -111,6 +111,14 @@ class FormPostList(Resource):
         except Exception as e:
             return make_response({'message': 'Something went wrong!','stackTrace': e}, 400)
     
+class FormPostByGenre(Resource):
+    def get(self, category):
+        try:
+            posts = FormPost.query.filter(FormPost.genre.has(name=category)).all()
+            return make_response([f.to_dict() for f in posts] ,202)
+        except Exception as e:
+            return make_response({'message': 'Something went wrong!','stackTrace': e}, 400)        
+        
 class GenreList(Resource):
     def get(self):
         genres = Genre.query.all()
@@ -146,6 +154,7 @@ api.add_resource(CheckSession, '/check_session')
 api.add_resource(GetUsersSongs, '/get_users_songs')
 api.add_resource(AddSong, '/add_song')
 api.add_resource(FormPostList, '/formpost')
+api.add_resource(FormPostByGenre, '/formpost/<string:category>')
 api.add_resource(Login, '/login')
 api.add_resource(Logout, '/logout')
 api.add_resource(GenreList, '/genres')
