@@ -47,7 +47,7 @@ class Song(db.Model, SerializerMixin):
     link = db.Column(db.String)
     album_cover = db.Column(db.String)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    serialize_only = ('id', 'artist', 'title', 'album', 'album_cover')
+    serialize_only = ('id', 'artist', 'title', 'album', 'album_cover', 'link',)
 
     def __repr__(self):
         return f'<Song {self.id} :: {self.title}>'

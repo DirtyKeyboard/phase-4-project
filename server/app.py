@@ -151,6 +151,6 @@ api.add_resource(Logout, '/logout')
 api.add_resource(GenreList, '/genres')
 api.add_resource(SetUserGenre, '/set_user_genre')
 api.add_resource(PatchGenre, '/add_user_genre')
-api.add_resource(DeleteSong, '/delete_song')
+api.add_resource(DeleteSong, '/delete_song/<int:id>')
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
