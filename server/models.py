@@ -15,7 +15,6 @@ class User(db.Model, SerializerMixin):
     posts = db.relationship('FormPost', backref='user', cascade='all, delete, delete-orphan')
     genre = db.relationship('Genre', backref=db.backref('song', uselist=False))
     genre_id = db.Column(db.Integer, db.ForeignKey('genres.id'))
-    # serialize_rules = ('-genre',)
 
     @validates('email')
     def validate_email(self, key, value):
@@ -45,9 +44,10 @@ class Song(db.Model, SerializerMixin):
     album = db.Column(db.String)
     genre = db.relationship('Genre', backref=db.backref('song_g', uselist=False))
     genre_id = db.Column(db.Integer, db.ForeignKey('genres.id'))
-    year = db.Column(db.Integer)
     link = db.Column(db.String)
+    album_cover = db.Column(db.String)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    serialize_only = ('id', 'artist', 'title', 'album', 'album_cover')
 
     def __repr__(self):
         return f'<Song {self.id} :: {self.title}>'

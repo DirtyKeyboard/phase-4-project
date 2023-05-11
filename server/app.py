@@ -55,18 +55,15 @@ class DeleteAccount(Resource):
 class CheckSession(Resource):
     def get(self):
         if session.get('user_id'):
-
             user = User.query.filter(User.id == session['user_id']).first()
-
             return user.to_dict(), 200
-
         return {'error': '401 Unauthorized'}, 401
         
 class GetUsersSongs(Resource):
     def get(self):
         try:
             user = User.query.filter(User.id == session['user_id']).first()
-            return make_response(user.songs.to_dict(),202)
+            return make_response([s.to_dict() for s in user.songs],202)
         except Exception as e:
             return make_response({'message': 'Something went wrong!','stackTrace': e}, 400)
         
@@ -76,18 +73,26 @@ class AddSong(Resource):
             new_song = Song(title=request.get_json()['title'],
                             artist=request.get_json()['artist'],
                             album=request.get_json()['album'],
-                            year=request.get_json()['year'],
                             link=request.get_json()['link'],
-                            user_id=session['user_id']) #Have a list of genre IDs, linking to the genres table, append each genre
-            genres = request.get_json()['genres']
-            for i in genres:
-                new_song.genres.append(Genre.query.filter(Genre.id == i).first())
+                            album_cover=request.get_json()['album_cover'],
+                            user_id=session['user_id'])
+            user = User.query.filter(User.id == session['user_id']).first()
+            new_song.genre = Genre.query.filter(Genre.id == user.genre_id).first()
             db.session.add(new_song)
             db.session.commit()
             return make_response({'message': 'Song added!'}, 201)
         except Exception as e:
             return make_response({'message': 'Something went wrong!','stackTrace': e}, 400)
         
+class DeleteSong(Resource):
+    def delete(self, id):
+        try:
+            song_del = Song.query.filter(Song.id == id).first()
+            db.session.delete(song_del)
+            db.session.commit()
+            return make_response({'message': 'Song deleted'}, 204)
+        except Exception as e:
+            return make_response({'message': 'Something went wrong!'})
 
 class FormPostList(Resource):
     def get(self):
@@ -146,5 +151,6 @@ api.add_resource(Logout, '/logout')
 api.add_resource(GenreList, '/genres')
 api.add_resource(SetUserGenre, '/set_user_genre')
 api.add_resource(PatchGenre, '/add_user_genre')
+api.add_resource(DeleteSong, '/delete_song')
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
