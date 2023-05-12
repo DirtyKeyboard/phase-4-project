@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from 'react'
-import {useParams} from 'react-router-dom'
 import NavBar from './NavBar'
 import axios from 'axios'
 import ForumPostCard from './ForumPostCard'
 import {v4 as uuid} from 'uuid'
-import {useNavigate} from 'react-router-dom'
+import {useNavigate, useParams} from 'react-router-dom'
 
 const FormDisplay = () => {
     const nav = useNavigate()

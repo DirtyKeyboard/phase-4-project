@@ -31,7 +31,6 @@ class Login(Resource):
         if user:
             if user.verify_password(password):
                 session['user_id'] = user.id
-                # request.set_cookie('user_id', user.id)
                 return user.to_dict(), 200
 
         return {'error': '401 Unauthorized'}, 401
@@ -76,8 +75,9 @@ class AddSong(Resource):
                             link=request.get_json()['link'],
                             album_cover=request.get_json()['album_cover'],
                             user_id=session['user_id'])
+            
             user = User.query.filter(User.id == session['user_id']).first()
-            new_song.genre = Genre.query.filter(Genre.id == user.genre_id).first()
+            new_song.genre_id = user.genre_id
             db.session.add(new_song)
             db.session.commit()
             return make_response({'message': 'Song added!'}, 201)
@@ -104,9 +104,16 @@ class FormPostList(Resource):
     
     def post(self):
         try:
-            new_post = FormPost(title=request.get_json()['title'], body=request.get_json()['body'], user_id=session['user_id'], song_id = request.get_json()['song_id']) #Have a genre ID, linking to one genre.
+            new_post = FormPost(title=request.get_json()['title'],
+                                body=request.get_json()['body'],
+                                user_id=session['user_id'],
+                                song_id = request.get_json()['song_id'],
+                                user_name=request.get_json()['user_name'])
+
+            new_post.song = Song.query.filter(Song.id == new_post.song_id).first()
             db.session.add(new_post)
             db.session.commit()
+            print(new_post)
             return make_response({'message': 'Post added!'}, 201)
         except Exception as e:
             return make_response({'message': 'Something went wrong!','stackTrace': e}, 400)
@@ -146,7 +153,13 @@ class PatchGenre(Resource):
         user.genre = genre_added
         db.session.commit()
         return make_response({"message": "Genre Added!"},202)
-
+    
+class DeletePost(Resource):
+    def delete(self, id):
+        p = FormPost.query.filter(FormPost.id == id).first()
+        db.session.delete(p)
+        db.session.commit()
+        
 api.add_resource(Home, '/')
 api.add_resource(Signup, '/signup')
 api.add_resource(DeleteAccount, '/delete_account')
@@ -161,5 +174,6 @@ api.add_resource(GenreList, '/genres')
 api.add_resource(SetUserGenre, '/set_user_genre')
 api.add_resource(PatchGenre, '/add_user_genre')
 api.add_resource(DeleteSong, '/delete_song/<int:id>')
+api.add_resource(DeletePost, '/delete_post/<int:id>')
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

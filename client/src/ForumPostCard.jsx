@@ -1,9 +1,12 @@
 import React, {useState} from 'react'
+import axios from 'axios'
 
 const ForumPostCard = ({post, userId}) => {
     const [expanded, setExpanded] = useState(false)
     async function handleRemoveClick(e) {
         e.stopPropagation()
+        await axios.delete(`/api/delete_post/${post.id}`)
+        window.location.reload()
     }
     return (
     <div className="bg-gray-700 flex flex-col items-center gap-8 text-gray-200 hover:bg-gray-500 transition-all ease-in-out w-full rounded-2xl p-4 hover:cursor-pointer" onClick={() => setExpanded(!expanded)}>
