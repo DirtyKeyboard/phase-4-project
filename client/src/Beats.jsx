@@ -33,6 +33,13 @@ const Beats = () => {
         else
             {
                 try {
+                    const up = await axios.get('/api/users_posts')
+                    const userPosts = up.data.map(el => JSON.stringify(el))
+                    if (userPosts.includes(JSON.stringify(clicked)))
+                    {
+                        const post = await axios.get(`/api/form_post_by_song_id/${clicked.id}`)
+                        await axios.delete(`/api/delete_post/${post.data.id}`)
+                    }
                     await axios.delete(`/api/delete_song/${clicked.id}`)
                     setRemoveText("Remove")
                     setClicked(null)
@@ -40,7 +47,7 @@ const Beats = () => {
                     setSongs(newSongs)
                 }
                 catch (error) {
-                    alert("An error occured while deleting")
+                    alert(error)
                 }
             }
 

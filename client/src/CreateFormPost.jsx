@@ -13,7 +13,16 @@ const CreateFormPost = () => {
         async function fetchData() {
             const r = await axios.get('/api/get_users_songs')
             const ru = await axios.get('/api/check_session')
-            setSongs(r.data)
+            const up = await axios.get('/api/users_posts')
+            const songsToShow = []
+            const usersSongs = r.data.map(el => JSON.stringify(el))
+            const usersPosts = up.data.map(el => JSON.stringify(el))
+            usersSongs.forEach(el => {
+                if (!usersPosts.includes(el)) {
+                    songsToShow.push(JSON.parse(el))
+                }
+            })
+            setSongs(songsToShow)
             setForm({...form, song_id: r.data[0].id, user_name: ru.data.username})
         }
         fetchData()

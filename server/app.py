@@ -160,6 +160,16 @@ class DeletePost(Resource):
         db.session.delete(p)
         db.session.commit()
         
+class UsersPosts(Resource):
+    def get(self):
+        p = FormPost.query.filter(FormPost.user_id == session['user_id']).all()
+        return make_response([post.song.to_dict() for post in p], 202)
+
+class FormPostBySongId(Resource):
+    def get(self, id):
+        p = FormPost.query.filter(FormPost.song_id == id).first()
+        return make_response(p.to_dict(), 202)
+
 api.add_resource(Home, '/')
 api.add_resource(Signup, '/signup')
 api.add_resource(DeleteAccount, '/delete_account')
@@ -167,6 +177,7 @@ api.add_resource(CheckSession, '/check_session')
 api.add_resource(GetUsersSongs, '/get_users_songs')
 api.add_resource(AddSong, '/add_song')
 api.add_resource(FormPostList, '/formpost')
+api.add_resource(UsersPosts, '/users_posts')
 api.add_resource(FormPostByGenre, '/formpost/<string:category>')
 api.add_resource(Login, '/login')
 api.add_resource(Logout, '/logout')
@@ -175,5 +186,6 @@ api.add_resource(SetUserGenre, '/set_user_genre')
 api.add_resource(PatchGenre, '/add_user_genre')
 api.add_resource(DeleteSong, '/delete_song/<int:id>')
 api.add_resource(DeletePost, '/delete_post/<int:id>')
+api.add_resource(FormPostBySongId, '/form_post_by_song_id/<int:id>')
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

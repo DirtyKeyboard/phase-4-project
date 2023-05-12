@@ -8,6 +8,7 @@ import Beats from './Beats'
 import Finder from './Finder'
 import FormDisplay from './FormDisplay';
 import CreateFormPost from './CreateFormPost';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
