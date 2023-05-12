@@ -23,7 +23,7 @@ const CreateFormPost = () => {
                 }
             })
             setSongs(songsToShow)
-            setForm({...form, song_id: r.data[0].id, user_name: ru.data.username})
+            setForm({...form, song_id: songsToShow[0].id, user_name: ru.data.username})
         }
         fetchData()
     }), [])
@@ -64,7 +64,10 @@ const CreateFormPost = () => {
                 <input name="title" onChange={handleChange} type="text" className="w-1/2 rounded-lg h-[40px] bg-gray-700 text-white"/>
                 <h1 className="text-white text-xl">Body</h1>
                 <textarea name="body" onChange={handleChange} type="text" className="w-1/2 h-2/3 rounded-lg bg-gray-700 text-white"/>
-                <button className='btn-default' type="submit">Submit</button>
+                <div className="flex gap-2">
+                    <button className='btn-default' type="submit">Submit</button>
+                    <button type="button" className='btn-default' onClick={() => nav(`/forums/${category}`)} >Go Back</button>
+                </div>
                 </div>
         </form>
         </>

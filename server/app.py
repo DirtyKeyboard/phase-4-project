@@ -110,7 +110,7 @@ class FormPostList(Resource):
                                 song_id = request.get_json()['song_id'],
                                 user_name=request.get_json()['user_name'])
 
-            new_post.song = Song.query.filter(Song.id == new_post.song_id).first()
+            new_post.song = Song.query.filter(Song.id == request.get_json()['song_id']).first()
             db.session.add(new_post)
             db.session.commit()
             print(new_post)

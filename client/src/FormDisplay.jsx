@@ -15,7 +15,6 @@ const FormDisplay = () => {
     useEffect(() => {
         async function fetchData() {
             const r = await axios.get(`/api/formpost/${category}`)
-            console.log(r.data) ////////////
             const ru = await axios.get('/api/check_session')
             setPosts(r.data)
             const u = await axios.get('/api/check_session')
