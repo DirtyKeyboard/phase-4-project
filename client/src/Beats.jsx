@@ -10,16 +10,22 @@ const Beats = () => {
     const [removeText, setRemoveText] = useState("Remove")
     useEffect(() => {
         async function fetchData() {
-            const r = await axios.get('api/get_users_songs')
+            const r = await axios.get('/api/get_users_songs')
             setSongs(r.data)
         }
         fetchData()
     }, [])
     function handleCardClick(song) {
         if (clicked === song)
+        {
+            setRemoveText("Remove")
             setClicked(null)
+        }
         else
+        {
+            setRemoveText("Remove")
             setClicked(song)
+        }
     }
     async function handleRemoveClick() {
         if (removeText === "Remove")
@@ -27,7 +33,7 @@ const Beats = () => {
         else
             {
                 try {
-                    await axios.delete(`api/delete_song/${clicked.id}`)
+                    await axios.delete(`/api/delete_song/${clicked.id}`)
                     setRemoveText("Remove")
                     setClicked(null)
                     const newSongs = songs.filter(song => song.id !== clicked.id)

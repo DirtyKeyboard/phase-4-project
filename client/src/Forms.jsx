@@ -8,7 +8,7 @@ const Forms = () => {
     const [genres, setGenres] = useState([])
     useEffect(() => {
         async function fetchData() {
-        const r = await axios.get('api/genres')
+        const r = await axios.get('/api/genres')
         setGenres(r.data)
         }
         fetchData()

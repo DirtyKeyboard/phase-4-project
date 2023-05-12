@@ -8,7 +8,7 @@ const Dashboard = () => {
   useEffect(() => {
     async function fetchData() {
         try{
-        const response = await axios.get('api/check_session');
+        const response = await axios.get('/api/check_session');
         }
         catch (err) {
           alert('You are not logged in! Returning home...')

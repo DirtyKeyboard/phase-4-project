@@ -14,7 +14,7 @@ const NavBar = () => {
                 className="w-12 h-12 rounded-full cursor-pointer float-left mb-8"
                 onClick={() => setShow(!show)}
             />
-            {show ? <button className="bg-red-700 p-2 rounded-full mb-8 hover:bg-red-600" onClick={async() => {await axios.get('api/logout'); nav('/'); window.location.reload()}}>Log Out?</button> : null}
+            {show ? <button className="bg-red-700 p-2 rounded-full mb-8 hover:bg-red-600" onClick={async() => {await axios.get('/api/logout'); nav('/'); window.location.reload()}}>Log Out?</button> : null}
             <a href="/mybeats" className="text-xl font-semibold mb-4">
                 My Beats
             </a>

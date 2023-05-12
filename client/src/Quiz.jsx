@@ -56,7 +56,7 @@ const Quiz = () => {
         }
     }
     async function getResult() {
-        const r = await axios.get("api/genres")
+        const r = await axios.get("/api/genres")
         const genres = []
         r.data.forEach(el => genres.push(0)) 
         completed.forEach(el => {
@@ -82,7 +82,7 @@ const Quiz = () => {
                 if (el > genres[highest])
                     highest = genres.indexOf(el)
             })
-            await axios.patch('api/add_user_genre', {genre: r.data[highest].name})
+            await axios.patch('/api/add_user_genre', {genre: r.data[highest].name})
             setResult(r.data[highest].name)
     }
     return (

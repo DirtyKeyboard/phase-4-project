@@ -231,7 +231,7 @@ const Beats = () => {
 
     async function getSong() {
         //RAP, COUNTRY, RB, EDM, ROCK, LOFI, POP, JAZZ
-        const r = await axios.get('api/check_session')
+        const r = await axios.get('/api/check_session')
         const userGenre = r.data.genre.name.toLowerCase()
         let artistToSearch = ""
         const rand = Math.floor(Math.random() * 25);
@@ -262,24 +262,19 @@ const Beats = () => {
             const song = response.data.data[rand]
             setCurSong(song)
             setDisabledButton(false)
-            //console.log(song)
         } catch (error) {
             console.error(error);
         }
     }
     async function addCurSongToUserSongs() {
         setDisabledButton(true)
-        const r = await axios.post('api/add_song', {
+        const r = await axios.post('/api/add_song', {
             title: curSong.title,
             artist : curSong.artist.name,
             album: curSong.album.title,
             link: curSong.link,
             album_cover: curSong.album.cover
         })
-        console.log(r)
-        /*
-            curSong.link Widget Link: https://widget.deezer.com/widget/dark/track/${curSong.link.substring(curSong.link.lastIndexOf('/')+1)}`
-        */
     }
     return (
         <>

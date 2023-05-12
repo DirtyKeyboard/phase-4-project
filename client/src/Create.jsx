@@ -7,7 +7,7 @@ const Create = () => {
     const [form, setForm] = useState({username: '', email: '', password: ''})
     async function handleSubmit(e) {
         e.preventDefault()
-        const resp = await axios.post("api/signup", { ...form })
+        const resp = await axios.post("/api/signup", { ...form })
         if (resp.status === 201)
             nav('/')
     }

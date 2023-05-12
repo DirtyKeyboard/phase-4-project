@@ -7,6 +7,7 @@ import Forms from './Forms';
 import Beats from './Beats'
 import Finder from './Finder'
 import FormDisplay from './FormDisplay';
+import CreateFormPost from './CreateFormPost';
 
 function App() {
   return (
@@ -18,7 +19,8 @@ function App() {
       <Route exact path='/forums' element={<Forms />} />
       <Route path='/mybeats' element={<Beats />} />
       <Route path='/beatfind' element={<Finder />} />
-      <Route path='/forums/:category' element={<FormDisplay />} />
+      <Route exact path='/forums/:category' element={<FormDisplay />} />
+      <Route path="/forums/:category/create" element={<CreateFormPost/>} />
     </Routes>
   )
 }

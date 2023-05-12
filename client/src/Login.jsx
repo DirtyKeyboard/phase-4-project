@@ -6,7 +6,7 @@ const Login = () => {
     const nav = useNavigate()
     useEffect(() => {
         async function fetchData() {
-            const response = await axios.get('api/check_session');
+            const response = await axios.get('/api/check_session');
             if (response.status === 200)
                 nav('/')
         }
@@ -18,7 +18,7 @@ const Login = () => {
     }
     async function handleSubmit(e) {
         e.preventDefault()
-        const resp = await axios.post("api/login", { ...form })
+        const resp = await axios.post("/api/login", { ...form })
         if (resp.status === 200)
             nav('/')
     }
